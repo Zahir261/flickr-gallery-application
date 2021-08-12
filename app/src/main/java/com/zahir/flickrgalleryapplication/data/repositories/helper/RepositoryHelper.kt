@@ -28,9 +28,8 @@ class RepositoryHelper @Inject constructor() {
 
     private fun mapErrorResponse(throwable: HttpException): ErrorResponse? {
         return try {
-            throwable.response()?.errorBody()?.let {
-                Moshi.Builder().build().adapter(ErrorResponse::class.java)
-                    .fromJson(it.charStream().toString())
+            throwable.response()?.errorBody()?.source()?.let {
+                Moshi.Builder().build().adapter(ErrorResponse::class.java).fromJson(it)
             }
         } catch (exception: Exception) {
             null

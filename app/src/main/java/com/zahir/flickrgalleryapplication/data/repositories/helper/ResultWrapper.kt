@@ -1,5 +1,7 @@
 package com.zahir.flickrgalleryapplication.data.repositories.helper
 
+import com.squareup.moshi.JsonClass
+
 /**
  * A wrapper class for API response.
  */
@@ -12,8 +14,7 @@ sealed class ResultWrapper<out T> {
     /**
      * If there is an error in the API call
      */
-    data class GenericError(val code: Int? = null, val errorResponse: ErrorResponse? = null) :
-        ResultWrapper<Nothing>()
+    data class GenericError(val code: Int? = null, val errorResponse: ErrorResponse? = null) : ResultWrapper<Nothing>()
 
     /**
      * If the device is not connected to internet
@@ -21,6 +22,7 @@ sealed class ResultWrapper<out T> {
     object NetworkError : ResultWrapper<Nothing>()
 }
 
+@JsonClass(generateAdapter = true)
 data class ErrorResponse(
     val errors: List<String>
 )
