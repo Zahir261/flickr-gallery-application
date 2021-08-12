@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Flickr Gallery Application</string>
+    <string name="flickr_logo">Flickr Logo</string>
 </resources>
