@@ -1,7 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id "kotlin-kapt"
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -33,13 +35,13 @@ android {
     flavorDimensions 'default'
     productFlavors {
         dev {
-            buildConfigField "String", "FLICKR_BASE_URL", "\"https://www.flickr.com/services/feeds/\""
+            buildConfigField "String", "FLICKR_BASE_URL", "\"https://flickr.com/services/feeds/\""
         }
         stg {
-            buildConfigField "String", "FLICKR_BASE_URL", "\"https://www.flickr.com/services/feeds/\""
+            buildConfigField "String", "FLICKR_BASE_URL", "\"https://flickr.com/services/feeds/\""
         }
         prod {
-            buildConfigField "String", "FLICKR_BASE_URL", "\"https://www.flickr.com/services/feeds/\""
+            buildConfigField "String", "FLICKR_BASE_URL", "\"https://flickr.com/services/feeds/\""
         }
     }
     compileOptions {
@@ -66,13 +68,14 @@ dependencies {
 
     //Unit test
     testImplementation "junit:junit:$junit_version"
-    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_test_version"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
 
     //Moshi
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
@@ -95,5 +98,5 @@ dependencies {
 
     //Hilt dependency injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }

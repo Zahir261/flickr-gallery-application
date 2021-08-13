@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gallery_image_height">200dp</dimen>
+    <dimen name="error_text_size">16sp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+    <dimen name="grid_space">4dp</dimen>
+</resources>

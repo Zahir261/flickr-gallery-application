@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Flickr Gallery Application</string>
     <string name="flickr_logo">Flickr Logo</string>
+    <string name="galley_image">Galley Image</string>
+    <string name="error_image">Error Image</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="try_again">Try Again</string>
 </resources>

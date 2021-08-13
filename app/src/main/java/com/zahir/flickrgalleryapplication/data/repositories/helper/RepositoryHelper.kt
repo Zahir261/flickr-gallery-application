@@ -2,6 +2,7 @@ package com.zahir.flickrgalleryapplication.data.repositories.helper
 
 import com.squareup.moshi.Moshi
 import com.zahir.flickrgalleryapplication.data.api.interceptors.NoConnectivityException
+import com.zahir.flickrgalleryapplication.utils.debugLogInfo
 import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,6 +16,7 @@ class RepositoryHelper @Inject constructor() {
         return try {
             ResultWrapper.Success(retrievalAction())
         } catch (throwable: Throwable) {
+            debugLogInfo(throwable)
             when (throwable) {
                 is HttpException -> ResultWrapper.GenericError(
                     throwable.code(),
