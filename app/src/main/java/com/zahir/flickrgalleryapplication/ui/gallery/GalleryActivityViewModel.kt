@@ -42,12 +42,12 @@ class GalleryActivityViewModel @Inject constructor(
                     _errorMessage.value = null
                 }
                 is ResultWrapper.NetworkError -> {
-                    _imageList.value = null
+                    _imageList.value = arrayListOf()
                     _isNetworkCallSuccessful.value = false
                     _errorMessage.value = "Please check your internet connection."
                 }
                 is ResultWrapper.GenericError -> {
-                    _imageList.value = null
+                    _imageList.value = arrayListOf()
                     _isNetworkCallSuccessful.value = false
                     _errorMessage.value = "Sorry, something went wrong."
                 }

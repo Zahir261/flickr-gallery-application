@@ -73,7 +73,7 @@ class GalleryActivityViewModelTest {
         assertFalse(sut.isLoading.getOrAwaitValue()!!)
         assertEquals("Please check your internet connection.", sut.errorMessage.getOrAwaitValue())
         assertFalse(sut.isNetworkCallSuccessful.getOrAwaitValue()!!)
-        assertNull(sut.imageList.getOrAwaitValue())
+        assertTrue(sut.imageList.getOrAwaitValue()?.isEmpty()!!)
     }
 
     @Test
@@ -89,6 +89,6 @@ class GalleryActivityViewModelTest {
         assertFalse(sut.isLoading.getOrAwaitValue()!!)
         assertEquals("Sorry, something went wrong.", sut.errorMessage.getOrAwaitValue())
         assertFalse(sut.isNetworkCallSuccessful.getOrAwaitValue()!!)
-        assertNull(sut.imageList.getOrAwaitValue())
+        assertTrue(sut.imageList.getOrAwaitValue()?.isEmpty()!!)
     }
 }
