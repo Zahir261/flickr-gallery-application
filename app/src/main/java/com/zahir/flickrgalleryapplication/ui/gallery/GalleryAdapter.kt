@@ -8,7 +8,7 @@ import com.zahir.flickrgalleryapplication.databinding.ItemGalleryBinding
 
 class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
 
-    var items = ArrayList<ImageDetail>()
+    var items = emptyList<ImageDetail>()
         set(value) {
             field = value
             notifyDataSetChanged()

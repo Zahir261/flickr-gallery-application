@@ -19,6 +19,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class GalleryActivityViewModelTest {
@@ -90,5 +91,92 @@ class GalleryActivityViewModelTest {
         assertEquals("Sorry, something went wrong.", sut.errorMessage.getOrAwaitValue())
         assertFalse(sut.isNetworkCallSuccessful.getOrAwaitValue()!!)
         assertTrue(sut.imageList.getOrAwaitValue()?.isEmpty()!!)
+    }
+
+    @Test
+    fun test_sortList_by_date_taken() {
+        // Arrange
+        val firstImage = ImageDetail(dateTaken = Date(1000))
+        val secondImage = ImageDetail(dateTaken = Date(1001))
+        val thirdImage = ImageDetail(dateTaken = Date(999))
+        val fourthImage = ImageDetail(dateTaken = Date(1005))
+        val fifthImage = ImageDetail(dateTaken = Date(1003))
+        val imageList = listOf(firstImage, secondImage, thirdImage, fourthImage, fifthImage)
+
+        // Act
+        val sortedList = sut.sortList(imageList, SortOption.ByDateTaken)
+
+        // Assert
+        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sortedList)
+    }
+
+    @Test
+    fun test_sortList_by_date_published() {
+        // Arrange
+        val firstImage = ImageDetail(published = Date(1000))
+        val secondImage = ImageDetail(published = Date(1001))
+        val thirdImage = ImageDetail(published = Date(999))
+        val fourthImage = ImageDetail(published = Date(1005))
+        val fifthImage = ImageDetail(published = Date(1003))
+        val imageList = listOf(firstImage, secondImage, thirdImage, fourthImage, fifthImage)
+
+        // Act
+        val sortedList = sut.sortList(imageList, SortOption.ByDatePublished)
+
+        // Assert
+        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sortedList)
+    }
+
+    @Test
+    fun changeSortOption_when_by_date_taken_should_change_to_by_date_published() = runBlockingTest {
+        // Arrange
+        val firstImage = ImageDetail(dateTaken = Date(1000), published = Date(600))
+        val secondImage = ImageDetail(dateTaken = Date(1001), published = Date(603))
+        val thirdImage = ImageDetail(dateTaken = Date(999), published = Date(599))
+        val fourthImage = ImageDetail(dateTaken = Date(1005), published = Date(1000))
+        val fifthImage = ImageDetail(dateTaken = Date(1003), published = Date(300))
+        val imageList = listOf(firstImage, secondImage, thirdImage, fourthImage, fifthImage)
+        Mockito.`when`(galleryRepository.getImageList()).thenReturn(ResultWrapper.Success(FlickrImageAPIResponse(imageList)))
+
+        // Act
+        sut.getImages()
+
+        // Assert
+        assertTrue(sut.sortOption.value is SortOption.ByDateTaken)
+        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sut.imageList.value)
+
+        // Act
+        sut.changeSortOption()
+
+        // Assert
+        assertTrue(sut.sortOption.value is SortOption.ByDatePublished)
+        assertEquals(listOf(fifthImage, thirdImage, firstImage, secondImage, fourthImage), sut.imageList.value)
+    }
+
+    @Test
+    fun changeSortOption_when_by_date_published_should_change_to_by_date_taken() = runBlockingTest {
+        // Arrange
+        val firstImage = ImageDetail(dateTaken = Date(1000), published = Date(600))
+        val secondImage = ImageDetail(dateTaken = Date(1001), published = Date(603))
+        val thirdImage = ImageDetail(dateTaken = Date(999), published = Date(599))
+        val fourthImage = ImageDetail(dateTaken = Date(1005), published = Date(1000))
+        val fifthImage = ImageDetail(dateTaken = Date(1003), published = Date(300))
+        val imageList = listOf(firstImage, secondImage, thirdImage, fourthImage, fifthImage)
+        Mockito.`when`(galleryRepository.getImageList()).thenReturn(ResultWrapper.Success(FlickrImageAPIResponse(imageList)))
+
+        // Act
+        sut.getImages()
+        sut.changeSortOption()
+
+        //Assert
+        assertTrue(sut.sortOption.value is SortOption.ByDatePublished)
+        assertEquals(listOf(fifthImage, thirdImage, firstImage, secondImage, fourthImage), sut.imageList.value)
+
+        // Act
+        sut.changeSortOption()
+
+        // Assert
+        assertTrue(sut.sortOption.value is SortOption.ByDateTaken)
+        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sut.imageList.value)
     }
 }
