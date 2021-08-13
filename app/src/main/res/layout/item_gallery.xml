@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="imageDetail"
             type="com.zahir.flickrgalleryapplication.data.models.ImageDetail" />
@@ -18,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/galley_image"
+            android:scaleType="centerCrop"
             app:imageUrl="@{imageDetail.media.m}"
             tools:src="@drawable/ic_placeholder" />
 

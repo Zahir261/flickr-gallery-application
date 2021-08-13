@@ -5,4 +5,5 @@
     <string name="error_image">Error Image</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="try_again">Try Again</string>
+    <string name="image_author">Taken by %s on %s</string>
 </resources>

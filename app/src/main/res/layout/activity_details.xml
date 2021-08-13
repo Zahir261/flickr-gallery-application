@@ -1,10 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zahir.flickrgalleryapplication.ui.details.DetailsActivityViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/black">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/galley_image"
+            app:imageUrl="@{viewModel.imageDetail.media.m}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_flickr" />
+
+        <ScrollView
+            android:id="@+id/details_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent_black"
+            android:maxWidth="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shouldBeVisible="@{viewModel.shouldShowDetails}">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_big"
+                    android:layout_marginEnd="@dimen/margin_big"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:text="@{viewModel.imageDetail.title}"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tv_author_time"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Sunset" />
+
+                <TextView
+                    android:id="@+id/tv_author_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_big"
+                    android:layout_marginEnd="@dimen/margin_big"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:textColor="@color/white"
+                    app:htmlText="@{String.format(@string/image_author, viewModel.imageDetail.author, viewModel.imageDetail.dateTaken)}"
+                    app:layout_constraintBottom_toTopOf="@id/tv_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Taken on 12 Dec, 2019 by Zahirul Islam" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_big"
+                    android:layout_marginEnd="@dimen/margin_big"
+                    android:layout_marginBottom="@dimen/margin_huge"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:textColor="@color/white"
+                    app:htmlText="@{viewModel.imageDetail.description}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -33,12 +33,12 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
         fun bind(imageDetail: ImageDetail) {
             binding.imageDetail = imageDetail
             binding.root.setOnClickListener {
-                clickListener?.onClick()
+                clickListener?.onClick(imageDetail)
             }
         }
     }
 
     interface OnImageClickListener {
-        fun onClick()
+        fun onClick(imageDetail: ImageDetail)
     }
 }
