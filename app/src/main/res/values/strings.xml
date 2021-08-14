@@ -9,4 +9,15 @@
     <string name="change_sort">Change Sort</string>
     <string name="change_filter">Change Filter</string>
     <string name="flickr_gallery">Flickr Gallery</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="tag_close">Tag close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="tag_mode">Tag Mode</string>
+    <string name="all">All</string>
+    <string name="any">Any</string>
+    <string name="language">Language</string>
+    <string name="drop_down">Drop Down</string>
 </resources>

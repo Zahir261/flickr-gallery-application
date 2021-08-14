@@ -7,6 +7,7 @@ import com.zahir.flickrgalleryapplication.R
 import com.zahir.flickrgalleryapplication.data.models.ImageDetail
 import com.zahir.flickrgalleryapplication.databinding.ActivityGalleryBinding
 import com.zahir.flickrgalleryapplication.ui.BaseActivity
+import com.zahir.flickrgalleryapplication.ui.FilterBottomSheetFragment
 import com.zahir.flickrgalleryapplication.ui.details.DetailsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,8 +40,14 @@ class GalleryActivity : BaseActivity() {
             viewModel = this@GalleryActivity.viewModel
             rvGallery.apply {
                 addItemDecoration(GalleryItemDecoration(this@GalleryActivity))
-                layoutManager = GridLayoutManager(this@GalleryActivity, resources.getInteger(R.integer.span_count))
+                layoutManager = GridLayoutManager(
+                    this@GalleryActivity,
+                    resources.getInteger(R.integer.span_count)
+                )
                 adapter = this@GalleryActivity.adapter
+            }
+            binding.filter.setOnClickListener {
+                FilterBottomSheetFragment.newInstance().show(supportFragmentManager, "Filter")
             }
         }
 

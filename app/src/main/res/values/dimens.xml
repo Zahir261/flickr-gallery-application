@@ -9,4 +9,10 @@
     <dimen name="margin_huge">32dp</dimen>
     <dimen name="grid_space">4dp</dimen>
     <dimen name="elevation_16">16dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="drop_down_height">200dp</dimen>
+    <dimen name="tag_list_height">150dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="radius_3">3dp</dimen>
 </resources>
