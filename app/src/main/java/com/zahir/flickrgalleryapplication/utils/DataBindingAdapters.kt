@@ -6,8 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.zahir.flickrgalleryapplication.R
@@ -16,11 +14,10 @@ import com.zahir.flickrgalleryapplication.R
 fun setImageUrl(imageView: ImageView, url: String?) {
     url?.let {
         val requestOptions = RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .placeholder(R.drawable.ic_placeholder)
             .error(R.drawable.ic_failed)
 
-        Glide.with(imageView.context)
+        GlideApp.with(imageView.context)
             .load(it)
             .apply(requestOptions)
             .transition(withCrossFade())

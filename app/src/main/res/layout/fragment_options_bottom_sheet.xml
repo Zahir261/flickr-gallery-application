@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.zahir.flickrgalleryapplication.ui.details.OptionsBottomSheetFragment" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +22,7 @@
             android:clickable="true"
             android:drawablePadding="@dimen/padding_small"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> fragment.onShareButtonClick()}"
             android:text="@string/via_email"
             android:textColor="@color/black"
             app:drawableTopCompat="@drawable/ic_share"
@@ -31,6 +39,7 @@
             android:clickable="true"
             android:drawablePadding="@dimen/padding_small"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> fragment.onSaveButtonClick()}"
             android:text="@string/save_to_gallery"
             android:textColor="@color/black"
             app:drawableTopCompat="@drawable/ic_save"
@@ -47,6 +56,7 @@
             android:clickable="true"
             android:drawablePadding="@dimen/padding_small"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> fragment.onOpenToBrowserButtonClick()}"
             android:text="@string/open_in_browser"
             android:textColor="@color/black"
             app:drawableTopCompat="@drawable/ic_open_browser"

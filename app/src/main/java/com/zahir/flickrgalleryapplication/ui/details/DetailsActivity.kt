@@ -29,6 +29,22 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     fun onThreeDotsMenuClick() {
-        OptionsBottomSheetFragment.newInstance().show(supportFragmentManager, "OptionsFragment")
+        OptionsBottomSheetFragment.newInstance().apply {
+            listener = object : OptionsBottomSheetFragment.OptionsClickListener {
+                override fun onShareButtonClick() {
+                    viewModel.shareViaEmail(this@DetailsActivity)
+                }
+
+                override fun onSaveButtonClick() {
+                    viewModel.saveToGallery(this@DetailsActivity)
+                }
+
+                override fun onOpenToBrowserClick() {
+                    viewModel.openToBrowser(this@DetailsActivity)
+                }
+
+            }
+        }
+            .show(supportFragmentManager, "OptionsFragment")
     }
 }

@@ -9,6 +9,7 @@ import com.zahir.flickrgalleryapplication.databinding.FragmentOptionsBottomSheet
 
 class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentOptionsBottomSheetBinding
+    var listener: OptionsClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,7 +19,33 @@ class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.lifecycleOwner = this
+        binding.fragment = this
+    }
+
     companion object {
         fun newInstance() = OptionsBottomSheetFragment()
+    }
+
+    fun onShareButtonClick() {
+        listener?.onShareButtonClick()
+        dismiss()
+    }
+
+    fun onSaveButtonClick() {
+        listener?.onSaveButtonClick()
+        dismiss()
+    }
+
+    fun onOpenToBrowserButtonClick() {
+        listener?.onOpenToBrowserClick()
+        dismiss()
+    }
+
+    interface OptionsClickListener {
+        fun onShareButtonClick()
+        fun onSaveButtonClick()
+        fun onOpenToBrowserClick()
     }
 }
