@@ -3,6 +3,9 @@ package com.zahir.flickrgalleryapplication.data.database.converters
 import androidx.room.TypeConverter
 import java.util.*
 
+/**
+ * Date to long and vice-versa converter for Room database
+ */
 class DateConverter {
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {

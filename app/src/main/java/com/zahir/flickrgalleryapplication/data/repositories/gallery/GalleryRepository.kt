@@ -1,7 +1,7 @@
 package com.zahir.flickrgalleryapplication.data.repositories.gallery
 
 import com.squareup.moshi.Moshi
-import com.zahir.flickrgalleryapplication.data.adapters.DateAdapter
+import com.zahir.flickrgalleryapplication.utils.jsonadapters.DateAdapter
 import com.zahir.flickrgalleryapplication.data.api.ApiClient
 import com.zahir.flickrgalleryapplication.data.models.FlickrImageAPIResponse
 import com.zahir.flickrgalleryapplication.data.repositories.helper.RepositoryHelper
@@ -14,6 +14,9 @@ class GalleryRepository @Inject constructor(
     private val repositoryHelper: RepositoryHelper,
     private val apiClient: ApiClient
 ) {
+    /**
+     * Call the Flickr image API and parse the response
+     */
     suspend fun getImageList(tags: String?, tagMode: String, language: String): ResultWrapper<FlickrImageAPIResponse> {
         return repositoryHelper.execute {
             parseResponse(apiClient.getPhotos(tags, tagMode, language)) ?: FlickrImageAPIResponse()

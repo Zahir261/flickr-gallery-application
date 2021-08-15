@@ -31,7 +31,7 @@ class TagView @JvmOverloads constructor(
 
     init {
         with(binding) {
-            autoComplete.threshold = 1
+            autoComplete.threshold = 1 // start giving suggestion from first character
             autoComplete.setAdapter(autoCompleteAdapter)
             autoComplete.setOnItemClickListener { parent, _, position, _ ->
                 autoComplete.setText("")
@@ -70,6 +70,13 @@ class TagView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Add an item to the tag list and update the tag recyclerview.
+     * Call [TagViewItemChangeListener.onTagInserted] or [TagViewItemChangeListener.onTagSelected] based on the action.
+     *
+     * @param tag String - tag to be added
+     * @param action [Action] to be performed
+     */
     private fun addToTagList(tag: String, action: Action) {
         if (!tagList.contains(tag)) {
             tagList.add(tag)
@@ -82,15 +89,30 @@ class TagView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Get the text from auto complete text view
+     *
+     * @return String - text from auto complete text view
+     */
     fun getEnteredTag(): String {
         return binding.autoComplete.text.toString()
     }
 
+    /**
+     * discard previous list and assign to the new list
+     *
+     * @param itemList List<String>
+     */
     fun setAutoCompleteItemList(itemList: List<String>) {
         autoCompleteAdapter.clear()
         autoCompleteAdapter.addAll(itemList)
     }
 
+    /**
+     * discard previous list of tag recyclerview and set a new list
+     *
+     * @param tagList List<String>
+     */
     fun setTagList(tagList: List<String>) {
         this.tagList.clear()
         this.tagList.addAll(tagList)
@@ -98,17 +120,45 @@ class TagView @JvmOverloads constructor(
         binding.rvTag.scrollToPosition(tagList.size - 1)
     }
 
+    /**
+     * Clear the selected tag list
+     */
     fun clearTagList() {
         tagList.clear()
         tagAdapter.tagList = tagList
     }
 
+    /**
+     * An interface to detect the tag insertion, selection and deletion event
+     */
     interface TagViewItemChangeListener {
+        /**
+         * Perform action when a tag is inserted
+         *
+         * @param tag String Selected tag
+         * @param tagList List<String> - currently selected tag list
+         */
         fun onTagInserted(tag: String, tagList: List<String>)
+
+        /**
+         * Perform action when a tag is selected
+         *
+         * @param tag String Selected tag
+         * @param tagList List<String> - currently selected tag list
+         */
         fun onTagSelected(tag: String, tagList: List<String>)
+
+        /**
+         * Perform action when a tag is deleted
+         *
+         * @param tagList List<String> - currently selected tag list
+         */
         fun onTagDeleted(tagList: List<String>)
     }
 
+    /**
+     * Tag selection or insertion aciton
+     */
     sealed class Action {
         object Selection : Action()
         object Insertion : Action()

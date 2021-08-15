@@ -8,6 +8,9 @@ import androidx.room.Query
 import com.zahir.flickrgalleryapplication.data.models.Tag
 import java.util.*
 
+/**
+ * Dao for operations performed in Tag table of Room database
+ */
 @Dao
 interface TagDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

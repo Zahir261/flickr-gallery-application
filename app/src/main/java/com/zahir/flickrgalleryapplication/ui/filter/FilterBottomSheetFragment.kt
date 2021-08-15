@@ -16,6 +16,9 @@ import com.zahir.flickrgalleryapplication.databinding.FragmentFilterBottomSheetB
 import com.zahir.flickrgalleryapplication.ui.customviews.tag.TagView
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This fragment is responsible for selecting the filters for image search.
+ */
 @AndroidEntryPoint
 class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -28,7 +31,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle)
         arguments?.let {
-            searchFilter = it.getParcelable("searchFilter")!!
+            searchFilter = it.getParcelable(SEARCH_FILTER_KEY)!!
         }
     }
 
@@ -93,6 +96,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             }
         }
 
+        // update the autoCompleteList in the tag view
         viewModel.autoCompleteList.observe(viewLifecycleOwner, {
             val tagList = it.map { tag ->
                 tag.title
@@ -102,6 +106,9 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     }
 
+    /**
+     * Reset filters to initial state
+     */
     fun resetFilters() {
         binding.tagView.clearTagList()
         binding.radioGroup.check(R.id.rb_all)
@@ -109,6 +116,10 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         viewModel.resetFilters()
     }
 
+    /**
+     * Build search params based on the selection of the filters and
+     * send to gallery activity for searching again
+     */
     fun onSearchButtonClick() {
         // add to tagList if last entered text is not empty
         val enteredTag = binding.tagView.getEnteredTag()
@@ -131,9 +142,16 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
+        private const val SEARCH_FILTER_KEY = "searchFilter"
+
+        /**
+         * Create new instance of the [FilterBottomSheetFragment]
+         *
+         * @param searchFilter SearchFilter - initial filter values for this fragment
+         */
         fun newInstance(searchFilter: SearchFilter) = FilterBottomSheetFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("searchFilter", searchFilter)
+                putParcelable(SEARCH_FILTER_KEY, searchFilter)
             }
         }
     }

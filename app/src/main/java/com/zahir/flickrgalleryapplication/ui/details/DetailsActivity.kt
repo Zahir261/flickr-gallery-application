@@ -4,10 +4,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.zahir.flickrgalleryapplication.databinding.ActivityDetailsBinding
+import com.zahir.flickrgalleryapplication.ui.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This activity shows the full image and the image description
+ * and performs different actions on the image.
+ */
 @AndroidEntryPoint
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : BaseActivity() {
     private lateinit var binding: ActivityDetailsBinding
     private lateinit var viewModel: DetailsActivityViewModel
 

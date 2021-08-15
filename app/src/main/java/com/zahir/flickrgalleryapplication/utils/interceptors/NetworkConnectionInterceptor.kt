@@ -1,4 +1,4 @@
-package com.zahir.flickrgalleryapplication.data.api.interceptors
+package com.zahir.flickrgalleryapplication.utils.interceptors
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -9,6 +9,11 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
 
+/**
+ * Check network connection before sending the request.
+ *
+ * If not connected to internet, throw [NoConnectivityException]
+ */
 class NetworkConnectionInterceptor(@ApplicationContext private val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

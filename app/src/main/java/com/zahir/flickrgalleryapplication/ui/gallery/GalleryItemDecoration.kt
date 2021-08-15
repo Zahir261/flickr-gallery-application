@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zahir.flickrgalleryapplication.R
 
+/**
+ * Item decorator used for Grid recycler view for image gallery
+ */
 class GalleryItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
 
     private val itemSpacing = context.resources.getDimension(R.dimen.grid_space).toInt()

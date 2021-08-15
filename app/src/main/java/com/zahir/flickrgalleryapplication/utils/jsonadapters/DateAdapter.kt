@@ -1,4 +1,4 @@
-package com.zahir.flickrgalleryapplication.data.adapters
+package com.zahir.flickrgalleryapplication.utils.jsonadapters
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader

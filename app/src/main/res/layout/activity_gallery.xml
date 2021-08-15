@@ -80,7 +80,7 @@
                             android:text="@{viewModel.sortOption.sortText}"
                             android:textColor="@color/black"
                             android:textSize="10sp"
-                            android:onClick="@{() -> viewModel.changeSortOption()}"
+                            android:onClick="@{() -> viewModel.toggleSortOptions()}"
                             android:layout_marginEnd="@dimen/margin_medium"
                             app:drawableTopCompat="@drawable/ic_sort"
                             app:layout_constraintBottom_toBottomOf="parent"

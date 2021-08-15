@@ -3,7 +3,7 @@ package com.zahir.flickrgalleryapplication.di
 import android.content.Context
 import com.zahir.flickrgalleryapplication.BuildConfig
 import com.zahir.flickrgalleryapplication.data.api.ApiClient
-import com.zahir.flickrgalleryapplication.data.api.interceptors.NetworkConnectionInterceptor
+import com.zahir.flickrgalleryapplication.utils.interceptors.NetworkConnectionInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +18,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.net.CookieManager
 import java.util.concurrent.TimeUnit
 
+/**
+ * Module for providing network related dependencies
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {

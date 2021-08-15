@@ -8,6 +8,11 @@ object Toaster {
 
     var toast: Toast? = null
 
+    /**
+     * Toast util to show toast message within the app.
+     *
+     * This dismisses previous toast (if available) and show next toast
+     */
     @SuppressLint("ShowToast")
     fun showToast(context: Context, message: String, length: Int = Toast.LENGTH_SHORT) {
         dismissExistingToast()

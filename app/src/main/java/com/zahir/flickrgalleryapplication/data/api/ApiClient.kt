@@ -3,6 +3,9 @@ package com.zahir.flickrgalleryapplication.data.api
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * API collection interface of this application
+ */
 interface ApiClient {
     @GET("photos_public.gne")
     suspend fun getPhotos(

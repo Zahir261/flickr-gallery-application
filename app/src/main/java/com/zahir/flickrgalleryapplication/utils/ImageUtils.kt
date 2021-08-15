@@ -6,7 +6,11 @@ import android.graphics.drawable.Drawable
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
-//Make sure to call this function on a background thread, else it will block main thread
+/**
+ * Get bitmap from image and perform the action after getting the bitmap.
+ *
+ * Make sure to call this function on a background thread, else it will block main thread
+ */
 fun getBitmapFromUrlAndPerformAction(url: String, context: Context, afterAction: (Bitmap?) -> Unit) {
     GlideApp.with(context)
         .asBitmap()

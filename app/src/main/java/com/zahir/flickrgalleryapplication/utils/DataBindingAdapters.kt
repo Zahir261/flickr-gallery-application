@@ -10,6 +10,9 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import com.zahir.flickrgalleryapplication.R
 
+/**
+ * Load image into the image view using glide.
+ */
 @BindingAdapter("app:imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
     url?.let {
@@ -25,11 +28,17 @@ fun setImageUrl(imageView: ImageView, url: String?) {
     }
 }
 
+/**
+ * Show or hide the view using boolean value.
+ */
 @BindingAdapter("app:shouldBeVisible")
 fun shouldBeVisible(view: View, shouldBeVisible: Boolean) {
     view.toggleVisibleOrGone(shouldBeVisible)
 }
 
+/**
+ * Display styled text from the provided HTML string.
+ */
 @BindingAdapter("app:htmlText")
 fun setHtmlText(textView: TextView, text: String?) {
     textView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

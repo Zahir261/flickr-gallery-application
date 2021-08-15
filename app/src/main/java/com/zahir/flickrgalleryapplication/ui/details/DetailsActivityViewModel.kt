@@ -23,6 +23,9 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
+/**
+ * ViewModel associated to [DetailsActivity]
+ */
 class DetailsActivityViewModel @Inject constructor() : ViewModel() {
     private var _imageDetail = MutableLiveData<ImageDetail>()
     val imageDetail: LiveData<ImageDetail>
@@ -40,6 +43,11 @@ class DetailsActivityViewModel @Inject constructor() : ViewModel() {
         _shouldShowDetails.value = !shouldShowDetails.value!!
     }
 
+    /**
+     * Share the image link via email.
+     *
+     * @param context Context where the intent should be handled
+     */
     fun shareViaEmail(context: Context) {
         val imageUrl = imageDetail.value?.media?.m ?: return
         val intent = Intent(Intent.ACTION_SENDTO)
@@ -60,6 +68,11 @@ class DetailsActivityViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    /**
+     * Saves the image to the system gallery.
+     *
+     * @param context Context - where the action should be handled
+     */
     fun saveToGallery(context: Context) {
         val imageUrl = imageDetail.value?.media?.m ?: return
         CoroutineScope(Dispatchers.IO).launch {
@@ -136,6 +149,11 @@ class DetailsActivityViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    /**
+     * Open the image link on system browser.
+     *
+     * @param context Context - where the intent should be handled
+     */
     fun openToBrowser(context: Context) {
         imageDetail.value?.link?.let {
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))

@@ -3,6 +3,9 @@ package com.zahir.flickrgalleryapplication.utils
 import android.util.Log
 import com.zahir.flickrgalleryapplication.BuildConfig
 
+/**
+ * Internal logger utils for printing log messages
+ */
 internal object Logger {
 
     private const val tag = BuildConfig.logTag

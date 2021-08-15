@@ -6,6 +6,9 @@ import android.os.Looper
 import com.zahir.flickrgalleryapplication.ui.gallery.GalleryActivity
 import com.zahir.flickrgalleryapplication.databinding.ActivityMainBinding
 
+/**
+ * This activity shows the splash screen
+ */
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {

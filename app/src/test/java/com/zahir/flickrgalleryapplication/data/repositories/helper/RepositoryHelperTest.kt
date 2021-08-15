@@ -1,6 +1,6 @@
 package com.zahir.flickrgalleryapplication.data.repositories.helper
 
-import com.zahir.flickrgalleryapplication.data.api.interceptors.NoConnectivityException
+import com.zahir.flickrgalleryapplication.utils.interceptors.NoConnectivityException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

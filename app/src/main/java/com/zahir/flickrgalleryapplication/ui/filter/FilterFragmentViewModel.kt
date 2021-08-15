@@ -33,16 +33,32 @@ class FilterFragmentViewModel @Inject constructor(
         get() = _language
     // end filter region
 
+    /**
+     * Get all the tag from local database
+     * Observe and update the auto complete list of TagView from fragment
+     */
     private var _autoCompleteList = tagDao.getAllTags()
     val autoCompleteList: LiveData<List<Tag>>
         get() = _autoCompleteList
 
+    /**
+     * Initialize the filters with valus from [FilterBottomSheetFragment]
+     *
+     * @param searchFilter SearchFilter
+     */
     fun init(searchFilter: SearchFilter) {
         _tagList.addAll(searchFilter.tags)
         _tagMode = searchFilter.tagMode
         _language = searchFilter.language
     }
 
+    /**
+     * Update the tag list
+     * Add the newly added tag to local database
+     *
+     * @param tag String - newly added tag
+     * @param tagList List<String> - updated tagList
+     */
     fun onTagInserted(tag: String, tagList: List<String>) {
         updateTagList(tagList)
         viewModelScope.launch {
@@ -50,6 +66,13 @@ class FilterFragmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Update the tag list
+     * Update selected tag's frequency and updated time to local database
+     *
+     * @param tag String - selected tag
+     * @param tagList List<String> - updated tagList
+     */
     fun onTagSelected(tag: String, tagList: List<String>) {
         updateTagList(tagList)
         viewModelScope.launch {
@@ -57,10 +80,19 @@ class FilterFragmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Update the tag list
+     */
     fun onTagDeleted(tagList: List<String>) {
         updateTagList(tagList)
     }
 
+    /**
+     * Add the newly added tag to tag list
+     * Add the newly added tag to local database
+     *
+     * @param tag String - newly added tag
+     */
     fun addToTagList(tag: String) {
         _tagList.add(tag)
         viewModelScope.launch {
@@ -68,6 +100,9 @@ class FilterFragmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Set all the filter value to initial state
+     */
     fun resetFilters() {
         _tagList.clear()
         _tagMode = TagMode.All
@@ -79,10 +114,20 @@ class FilterFragmentViewModel @Inject constructor(
         _tagList = tagList as MutableList<String>
     }
 
+    /**
+     * Update the tag mode filter with selected tag
+     *
+     * @param tagMode String - selected tag
+     */
     fun updateTagMode(tagMode: String) {
         _tagMode = TagMode.parse(tagMode)
     }
 
+    /**
+     * Update language filter with selected language
+     *
+     * @param language String - selected language
+     */
     fun updateLanguage(language: String) {
         _language = Language.parse(language)
     }

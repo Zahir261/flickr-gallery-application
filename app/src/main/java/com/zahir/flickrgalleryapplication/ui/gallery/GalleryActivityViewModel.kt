@@ -15,6 +15,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel associated with [GalleryActivity]
+ */
 @HiltViewModel
 class GalleryActivityViewModel @Inject constructor(
     private val galleryRepository: GalleryRepository
@@ -45,6 +48,9 @@ class GalleryActivityViewModel @Inject constructor(
     val sortOption: LiveData<SortOption>
         get() = _sortOption
 
+    /**
+     * Call the api and images from API
+     */
     fun getImages() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -74,6 +80,9 @@ class GalleryActivityViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Sort images by date taken or by date published
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun sortList(currentList: List<ImageDetail>?, sortOption: SortOption?): List<ImageDetail>? {
         return when (sortOption) {
@@ -89,7 +98,11 @@ class GalleryActivityViewModel @Inject constructor(
         }
     }
 
-    fun changeSortOption() {
+    /**
+     * Toggle sort options.
+     * Change to by date taken if previously was by date publish and vice-versa
+     */
+    fun toggleSortOptions() {
         _sortOption.value = when (sortOption.value) {
             SortOption.ByDatePublished -> SortOption.ByDateTaken
             SortOption.ByDateTaken -> SortOption.ByDatePublished
@@ -98,10 +111,20 @@ class GalleryActivityViewModel @Inject constructor(
         _imageList.value = sortList(imageList.value, sortOption.value)
     }
 
+    /**
+     * Update search filter with new value
+     *
+     * @param searchFilter new SearchFilter
+     */
     fun updateSearchFilter(searchFilter: SearchFilter) {
         _searchFilter = searchFilter
     }
 
+    /**
+     * Prepare [SearchParams] from [SearchFilter]
+     * Make a comma separated string from tag list
+     *
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun prepareSearchParams(): SearchParams {
         val tags = if (searchFilter.tags.isEmpty()) {
@@ -115,6 +138,9 @@ class GalleryActivityViewModel @Inject constructor(
     }
 }
 
+/**
+ * Sealed class for holding the sort options like date taken and date published
+ */
 sealed class SortOption(val sortText: String) {
     object ByDateTaken : SortOption("By Date Taken")
     object ByDatePublished : SortOption("By Date Published")

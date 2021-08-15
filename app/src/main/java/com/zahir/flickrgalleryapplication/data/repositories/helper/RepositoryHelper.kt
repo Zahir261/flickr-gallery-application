@@ -1,7 +1,7 @@
 package com.zahir.flickrgalleryapplication.data.repositories.helper
 
 import com.squareup.moshi.Moshi
-import com.zahir.flickrgalleryapplication.data.api.interceptors.NoConnectivityException
+import com.zahir.flickrgalleryapplication.utils.interceptors.NoConnectivityException
 import com.zahir.flickrgalleryapplication.utils.debugLogInfo
 import retrofit2.HttpException
 import javax.inject.Inject

@@ -183,7 +183,7 @@ class GalleryActivityViewModelTest {
         )
 
         // Act
-        sut.changeSortOption()
+        sut.toggleSortOptions()
 
         // Assert
         assertTrue(sut.sortOption.value is SortOption.ByDatePublished)
@@ -213,7 +213,7 @@ class GalleryActivityViewModelTest {
 
         // Act
         sut.getImages()
-        sut.changeSortOption()
+        sut.toggleSortOptions()
 
         //Assert
         assertTrue(sut.sortOption.value is SortOption.ByDatePublished)
@@ -223,7 +223,7 @@ class GalleryActivityViewModelTest {
         )
 
         // Act
-        sut.changeSortOption()
+        sut.toggleSortOptions()
 
         // Assert
         assertTrue(sut.sortOption.value is SortOption.ByDateTaken)

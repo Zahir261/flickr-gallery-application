@@ -12,6 +12,9 @@ import com.zahir.flickrgalleryapplication.ui.details.DetailsActivity
 import com.zahir.flickrgalleryapplication.ui.filter.FilterBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This activity shows the list of all images retrieved from api
+ */
 @AndroidEntryPoint
 class GalleryActivity : BaseActivity() {
     private lateinit var binding: ActivityGalleryBinding

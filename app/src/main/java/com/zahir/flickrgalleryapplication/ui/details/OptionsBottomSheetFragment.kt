@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.zahir.flickrgalleryapplication.databinding.FragmentOptionsBottomSheetBinding
 
+/**
+ * This fragment is responsible for showing the options that can be performed on an image
+ * like sharing via email, save to galley and open in browser
+ */
 class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentOptionsBottomSheetBinding
     var listener: OptionsClickListener? = null
@@ -44,8 +48,19 @@ class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     interface OptionsClickListener {
+        /**
+         * Perform task when Share via email button is clicked
+         */
         fun onShareButtonClick()
+
+        /**
+         * Perform action when save to gallery button is clicked
+         */
         fun onSaveButtonClick()
+
+        /**
+         * Perform action when open to browser button is clickec
+         */
         fun onOpenToBrowserClick()
     }
 }

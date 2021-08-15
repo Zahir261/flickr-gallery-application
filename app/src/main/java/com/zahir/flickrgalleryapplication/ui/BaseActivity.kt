@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Base activity class for all the activities in the application
+ */
 open class BaseActivity : AppCompatActivity() {
     inline fun <reified A : Activity> createIntent() = Intent(this, A::class.java)
 

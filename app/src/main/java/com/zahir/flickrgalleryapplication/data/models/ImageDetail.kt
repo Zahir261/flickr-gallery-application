@@ -6,6 +6,9 @@ import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
+/**
+ * Model for items of Flickr Image API
+ */
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class ImageDetail(

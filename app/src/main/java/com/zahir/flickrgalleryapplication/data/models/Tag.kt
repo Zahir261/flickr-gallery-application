@@ -4,6 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
+/**
+ * Local database Tag entity model
+ */
 @Entity(tableName = "tag")
 data class Tag(
     @PrimaryKey(autoGenerate = true)
