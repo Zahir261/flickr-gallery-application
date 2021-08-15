@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zahir.flickrgalleryapplication.data.models.ImageDetail
+import javax.inject.Inject
 
-class DetailsActivityViewModel : ViewModel() {
+class DetailsActivityViewModel @Inject constructor() : ViewModel() {
     private var _imageDetail = MutableLiveData<ImageDetail>()
     val imageDetail: LiveData<ImageDetail>
         get() = _imageDetail

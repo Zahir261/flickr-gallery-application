@@ -14,9 +14,9 @@ class GalleryRepository @Inject constructor(
     private val repositoryHelper: RepositoryHelper,
     private val apiClient: ApiClient
 ) {
-    suspend fun getImageList(): ResultWrapper<FlickrImageAPIResponse> {
+    suspend fun getImageList(tags: String?, tagMode: String, language: String): ResultWrapper<FlickrImageAPIResponse> {
         return repositoryHelper.execute {
-            parseResponse(apiClient.getPhotos()) ?: FlickrImageAPIResponse()
+            parseResponse(apiClient.getPhotos(tags, tagMode, language)) ?: FlickrImageAPIResponse()
         }
     }
 

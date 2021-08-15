@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.zahir.flickrgalleryapplication.R
 import com.zahir.flickrgalleryapplication.data.models.ImageDetail
+import com.zahir.flickrgalleryapplication.data.models.SearchFilter
 import com.zahir.flickrgalleryapplication.databinding.ActivityGalleryBinding
 import com.zahir.flickrgalleryapplication.ui.BaseActivity
-import com.zahir.flickrgalleryapplication.ui.FilterBottomSheetFragment
 import com.zahir.flickrgalleryapplication.ui.details.DetailsActivity
+import com.zahir.flickrgalleryapplication.ui.filter.FilterBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +38,7 @@ class GalleryActivity : BaseActivity() {
 
         with(binding) {
             lifecycleOwner = this@GalleryActivity
+            activity = this@GalleryActivity
             viewModel = this@GalleryActivity.viewModel
             rvGallery.apply {
                 addItemDecoration(GalleryItemDecoration(this@GalleryActivity))
@@ -45,9 +47,6 @@ class GalleryActivity : BaseActivity() {
                     resources.getInteger(R.integer.span_count)
                 )
                 adapter = this@GalleryActivity.adapter
-            }
-            binding.filter.setOnClickListener {
-                FilterBottomSheetFragment.newInstance().show(supportFragmentManager, "Filter")
             }
         }
 
@@ -58,5 +57,18 @@ class GalleryActivity : BaseActivity() {
                 adapter.items = imageList
             })
         }
+    }
+
+    fun onFilterClick(){
+        FilterBottomSheetFragment.newInstance(viewModel.searchFilter).apply {
+            listener = object : FilterBottomSheetFragment.SearchButtonClickListener{
+                override fun onSearchButtonClick(searchFilter: SearchFilter) {
+                    viewModel.updateSearchFilter(searchFilter)
+                    viewModel.getImages()
+                }
+
+            }
+        }
+            .show(supportFragmentManager, "Filter")
     }
 }

@@ -2,15 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zahir.flickrgalleryapplication.ui.filter.FilterFragmentViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.zahir.flickrgalleryapplication.ui.filter.FilterBottomSheetFragment" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.zahir.flickrgalleryapplication.ui.customviews.TagView
+            <com.zahir.flickrgalleryapplication.ui.customviews.tag.TagView
                 android:id="@+id/tag_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_margin="@dimen/margin_big"
-                android:text="@string/tag_mode"
+                android:text="@string/should_contain"
                 app:layout_constraintBottom_toBottomOf="@id/radio_group"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/radio_group" />
@@ -64,20 +76,17 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="@dimen/margin_big"
+                android:layout_marginEnd="@dimen/margin_big"
                 app:layout_constraintBottom_toTopOf="@id/search"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_language"
                 app:layout_constraintTop_toBottomOf="@id/radio_group">
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinner_year"
-                    android:layout_width="0dp"
+                    android:id="@+id/spinner_language"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_dropdown"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:background="@drawable/bg_dropdown" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -100,6 +109,7 @@
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_horizontal"
+                android:onClick="@{() -> fragment.onSearchButtonClick()}"
                 android:padding="@dimen/padding_big"
                 android:text="@string/search"
                 android:textColor="@color/white"
@@ -119,8 +129,9 @@
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_horizontal"
+                android:onClick="@{() -> fragment.resetFilters()}"
                 android:padding="@dimen/padding_big"
-                android:text="@string/clear"
+                android:text="@string/reset"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_20"
                 app:layout_constraintBottom_toBottomOf="parent"

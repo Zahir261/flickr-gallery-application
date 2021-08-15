@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.zahir.flickrgalleryapplication.databinding.ActivityDetailsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailsBinding
     private lateinit var viewModel: DetailsActivityViewModel

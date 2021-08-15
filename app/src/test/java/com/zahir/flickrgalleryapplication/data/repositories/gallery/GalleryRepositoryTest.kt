@@ -62,7 +62,7 @@ class GalleryRepositoryTest {
         Mockito.`when`(apiClient.getPhotos()).thenReturn(response)
 
         // Act
-        val actualWrappedResponse = sut.getImageList()
+        val actualWrappedResponse = sut.getImageList(null, "all", "en-us")
 
         // Assert
         assertTrue(actualWrappedResponse is ResultWrapper.Success<FlickrImageAPIResponse>)
@@ -95,7 +95,7 @@ class GalleryRepositoryTest {
         Mockito.`when`(apiClient.getPhotos()).thenReturn(response)
 
         // Act
-        val actualWrappedResponse = sut.getImageList()
+        val actualWrappedResponse = sut.getImageList(null, "all", "en-us")
 
         // Assert
         assertTrue(actualWrappedResponse is ResultWrapper.GenericError)

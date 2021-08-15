@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zahir.flickrgalleryapplication.data.models.FlickrImageAPIResponse
 import com.zahir.flickrgalleryapplication.data.models.ImageDetail
+import com.zahir.flickrgalleryapplication.data.models.SearchFilter
+import com.zahir.flickrgalleryapplication.data.models.SearchParams
 import com.zahir.flickrgalleryapplication.data.repositories.gallery.GalleryRepository
 import com.zahir.flickrgalleryapplication.data.repositories.helper.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,6 +37,10 @@ class GalleryActivityViewModel @Inject constructor(
 
     private var _sortOption: MutableLiveData<SortOption> = MutableLiveData(SortOption.ByDateTaken)
 
+    private var _searchFilter = SearchFilter()
+    val searchFilter: SearchFilter
+        get() = _searchFilter
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val sortOption: LiveData<SortOption>
         get() = _sortOption
@@ -42,7 +48,12 @@ class GalleryActivityViewModel @Inject constructor(
     fun getImages() {
         viewModelScope.launch {
             _isLoading.value = true
-            when (val response = galleryRepository.getImageList()) {
+            val searchParams = prepareSearchParams()
+            when (val response = galleryRepository.getImageList(
+                searchParams.tags,
+                searchParams.tagMode,
+                searchParams.language
+            )) {
                 is ResultWrapper.Success<FlickrImageAPIResponse> -> {
                     _imageList.value = sortList(response.data.items, sortOption.value)
                     _isNetworkCallSuccessful.value = true
@@ -85,6 +96,22 @@ class GalleryActivityViewModel @Inject constructor(
             null -> SortOption.ByDateTaken
         }
         _imageList.value = sortList(imageList.value, sortOption.value)
+    }
+
+    fun updateSearchFilter(searchFilter: SearchFilter) {
+        _searchFilter = searchFilter
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun prepareSearchParams(): SearchParams {
+        val tags = if (searchFilter.tags.isEmpty()) {
+            null
+        } else {
+            searchFilter.tags.joinToString(",")
+        }
+        val tagMode = searchFilter.tagMode.keyword
+        val language = searchFilter.language.keyword
+        return SearchParams(tags, tagMode, language)
     }
 }
 

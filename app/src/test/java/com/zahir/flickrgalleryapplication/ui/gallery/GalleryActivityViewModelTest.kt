@@ -3,6 +3,9 @@ package com.zahir.flickrgalleryapplication.ui.gallery
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.zahir.flickrgalleryapplication.data.models.FlickrImageAPIResponse
 import com.zahir.flickrgalleryapplication.data.models.ImageDetail
+import com.zahir.flickrgalleryapplication.data.models.Language
+import com.zahir.flickrgalleryapplication.data.models.SearchFilter
+import com.zahir.flickrgalleryapplication.data.models.TagMode
 import com.zahir.flickrgalleryapplication.data.repositories.gallery.GalleryRepository
 import com.zahir.flickrgalleryapplication.data.repositories.helper.ResultWrapper
 import com.zahir.flickrgalleryapplication.utils.getOrAwaitValue
@@ -47,7 +50,13 @@ class GalleryActivityViewModelTest {
             ImageDetail(title = "title 3")
         )
         val response = FlickrImageAPIResponse(imageList)
-        Mockito.`when`(galleryRepository.getImageList())
+        Mockito.`when`(
+            galleryRepository.getImageList(
+                Mockito.any(),
+                Mockito.anyString(),
+                Mockito.anyString()
+            )
+        )
             .thenReturn(ResultWrapper.Success(response))
 
         // Act
@@ -64,7 +73,13 @@ class GalleryActivityViewModelTest {
     @Test
     fun getImages_when_network_connection_occurs() = runBlockingTest {
         // Arrange
-        Mockito.`when`(galleryRepository.getImageList())
+        Mockito.`when`(
+            galleryRepository.getImageList(
+                Mockito.any(),
+                Mockito.anyString(),
+                Mockito.anyString()
+            )
+        )
             .thenReturn(ResultWrapper.NetworkError)
 
         // Act
@@ -80,7 +95,13 @@ class GalleryActivityViewModelTest {
     @Test
     fun getImages_when_generic_error_occurs() = runBlockingTest {
         // Arrange
-        Mockito.`when`(galleryRepository.getImageList())
+        Mockito.`when`(
+            galleryRepository.getImageList(
+                Mockito.any(),
+                Mockito.anyString(),
+                Mockito.anyString()
+            )
+        )
             .thenReturn(ResultWrapper.GenericError())
 
         // Act
@@ -107,7 +128,10 @@ class GalleryActivityViewModelTest {
         val sortedList = sut.sortList(imageList, SortOption.ByDateTaken)
 
         // Assert
-        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sortedList)
+        assertEquals(
+            listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage),
+            sortedList
+        )
     }
 
     @Test
@@ -124,7 +148,10 @@ class GalleryActivityViewModelTest {
         val sortedList = sut.sortList(imageList, SortOption.ByDatePublished)
 
         // Assert
-        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sortedList)
+        assertEquals(
+            listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage),
+            sortedList
+        )
     }
 
     @Test
@@ -136,21 +163,34 @@ class GalleryActivityViewModelTest {
         val fourthImage = ImageDetail(dateTaken = Date(1005), published = Date(1000))
         val fifthImage = ImageDetail(dateTaken = Date(1003), published = Date(300))
         val imageList = listOf(firstImage, secondImage, thirdImage, fourthImage, fifthImage)
-        Mockito.`when`(galleryRepository.getImageList()).thenReturn(ResultWrapper.Success(FlickrImageAPIResponse(imageList)))
+        Mockito.`when`(
+            galleryRepository.getImageList(
+                Mockito.any(),
+                Mockito.anyString(),
+                Mockito.anyString()
+            )
+        )
+            .thenReturn(ResultWrapper.Success(FlickrImageAPIResponse(imageList)))
 
         // Act
         sut.getImages()
 
         // Assert
         assertTrue(sut.sortOption.value is SortOption.ByDateTaken)
-        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sut.imageList.value)
+        assertEquals(
+            listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage),
+            sut.imageList.value
+        )
 
         // Act
         sut.changeSortOption()
 
         // Assert
         assertTrue(sut.sortOption.value is SortOption.ByDatePublished)
-        assertEquals(listOf(fifthImage, thirdImage, firstImage, secondImage, fourthImage), sut.imageList.value)
+        assertEquals(
+            listOf(fifthImage, thirdImage, firstImage, secondImage, fourthImage),
+            sut.imageList.value
+        )
     }
 
     @Test
@@ -162,7 +202,14 @@ class GalleryActivityViewModelTest {
         val fourthImage = ImageDetail(dateTaken = Date(1005), published = Date(1000))
         val fifthImage = ImageDetail(dateTaken = Date(1003), published = Date(300))
         val imageList = listOf(firstImage, secondImage, thirdImage, fourthImage, fifthImage)
-        Mockito.`when`(galleryRepository.getImageList()).thenReturn(ResultWrapper.Success(FlickrImageAPIResponse(imageList)))
+        Mockito.`when`(
+            galleryRepository.getImageList(
+                Mockito.any(),
+                Mockito.anyString(),
+                Mockito.anyString()
+            )
+        )
+            .thenReturn(ResultWrapper.Success(FlickrImageAPIResponse(imageList)))
 
         // Act
         sut.getImages()
@@ -170,13 +217,56 @@ class GalleryActivityViewModelTest {
 
         //Assert
         assertTrue(sut.sortOption.value is SortOption.ByDatePublished)
-        assertEquals(listOf(fifthImage, thirdImage, firstImage, secondImage, fourthImage), sut.imageList.value)
+        assertEquals(
+            listOf(fifthImage, thirdImage, firstImage, secondImage, fourthImage),
+            sut.imageList.value
+        )
 
         // Act
         sut.changeSortOption()
 
         // Assert
         assertTrue(sut.sortOption.value is SortOption.ByDateTaken)
-        assertEquals(listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage), sut.imageList.value)
+        assertEquals(
+            listOf(thirdImage, firstImage, secondImage, fifthImage, fourthImage),
+            sut.imageList.value
+        )
+    }
+
+    @Test
+    fun updateSearchFilter_should_update_search_filter_when_called() {
+        // Arrange
+        val searchFilter = SearchFilter(
+            tags = listOf("Tag1", "Tag2", "Tag3"),
+            tagMode = TagMode.Any,
+            language = Language.German
+        )
+
+        // Act
+        sut.updateSearchFilter(searchFilter)
+
+        // Assert
+        assertEquals(listOf("Tag1", "Tag2", "Tag3"), sut.searchFilter.tags)
+        assertEquals(TagMode.Any, sut.searchFilter.tagMode)
+        assertEquals(Language.German, sut.searchFilter.language)
+    }
+
+    @Test
+    fun prepareParams_test_search_parameters() {
+        // Arrange
+        val searchFilter = SearchFilter(
+            tags = listOf("Tag1", "Tag2", "Tag3"),
+            tagMode = TagMode.Any,
+            language = Language.German
+        )
+
+        // Act
+        sut.updateSearchFilter(searchFilter)
+        val actualParams = sut.prepareSearchParams()
+
+        // Assert
+        assertEquals("Tag1,Tag2,Tag3", actualParams.tags)
+        assertEquals("any", actualParams.tagMode)
+        assertEquals("de-de", actualParams.language)
     }
 }

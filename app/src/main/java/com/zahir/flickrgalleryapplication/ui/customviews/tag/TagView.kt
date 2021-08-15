@@ -1,4 +1,4 @@
-package com.zahir.flickrgalleryapplication.ui.customviews
+package com.zahir.flickrgalleryapplication.ui.customviews.tag
 
 import android.content.Context
 import android.util.AttributeSet
@@ -27,7 +27,7 @@ class TagView @JvmOverloads constructor(
         ArrayAdapter<String>(this.context, android.R.layout.simple_dropdown_item_1line)
     private val tagAdapter = TagAdapter()
     private val tagList = ArrayList<String>()
-    private var listener: TagViewItemChangeListener? = null
+    var listener: TagViewItemChangeListener? = null
 
     init {
         with(binding) {
@@ -37,7 +37,7 @@ class TagView @JvmOverloads constructor(
                 autoComplete.setText("")
                 val selectedTag = parent.getItemAtPosition(position) as String
                 addToTagList(selectedTag)
-                listener?.onTagInserted(selectedTag)
+                listener?.onTagSelected(selectedTag)
             }
 
             rvTag.apply {
@@ -64,9 +64,10 @@ class TagView @JvmOverloads constructor(
 
         tagAdapter.apply {
             listener = object : TagAdapter.TagCloseListener {
-                override fun onTagCloseListener(position: Int) {
+                override fun onTagClosed(position: Int, tag: String) {
                     tagList.removeAt(position)
                     tagAdapter.tagList = tagList
+                    this@TagView.listener?.onTagDeleted(tag)
                 }
             }
         }
@@ -78,6 +79,10 @@ class TagView @JvmOverloads constructor(
             tagAdapter.tagList = tagList
             binding.rvTag.scrollToPosition(tagList.size - 1)
         }
+    }
+
+    fun getEnteredTag(): String {
+        return binding.autoComplete.text.toString()
     }
 
     private fun addToAutoCompleteList(item: String) {
@@ -93,6 +98,7 @@ class TagView @JvmOverloads constructor(
         this.tagList.clear()
         this.tagList.addAll(tagList)
         tagAdapter.tagList = this.tagList
+        binding.rvTag.scrollToPosition(tagList.size - 1)
     }
 
     fun clearTagList() {
@@ -102,5 +108,7 @@ class TagView @JvmOverloads constructor(
 
     interface TagViewItemChangeListener {
         fun onTagInserted(tag: String)
+        fun onTagSelected(tag: String)
+        fun onTagDeleted(tag: String)
     }
 }

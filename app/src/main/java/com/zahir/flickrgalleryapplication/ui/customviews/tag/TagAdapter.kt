@@ -1,4 +1,4 @@
-package com.zahir.flickrgalleryapplication.ui.customviews
+package com.zahir.flickrgalleryapplication.ui.customviews.tag
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,12 +32,12 @@ class TagAdapter : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
         fun bind(tag: String, position: Int) {
             binding.tag = tag
             binding.ivClose.setOnClickListener {
-                listener?.onTagCloseListener(position)
+                listener?.onTagClosed(position, tag)
             }
         }
     }
 
     interface TagCloseListener {
-        fun onTagCloseListener(position: Int)
+        fun onTagClosed(position: Int, tag: String)
     }
 }
