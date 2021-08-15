@@ -36,8 +36,7 @@ class TagView @JvmOverloads constructor(
             autoComplete.setOnItemClickListener { parent, _, position, _ ->
                 autoComplete.setText("")
                 val selectedTag = parent.getItemAtPosition(position) as String
-                addToTagList(selectedTag)
-                listener?.onTagSelected(selectedTag)
+                addToTagList(selectedTag, Action.Selection)
             }
 
             rvTag.apply {
@@ -53,9 +52,7 @@ class TagView @JvmOverloads constructor(
                     val enteredText = autoComplete.text.toString().trim()
                     autoComplete.setText("")
                     if (enteredText.isNotEmpty()) {
-                        addToTagList(enteredText)
-                        addToAutoCompleteList(enteredText)
-                        listener?.onTagInserted(enteredText)
+                        addToTagList(enteredText, Action.Insertion)
                     }
                 }
                 return@setOnKeyListener true
@@ -67,26 +64,26 @@ class TagView @JvmOverloads constructor(
                 override fun onTagClosed(position: Int, tag: String) {
                     tagList.removeAt(position)
                     tagAdapter.tagList = tagList
-                    this@TagView.listener?.onTagDeleted(tag)
+                    this@TagView.listener?.onTagDeleted(tagList)
                 }
             }
         }
     }
 
-    private fun addToTagList(tag: String) {
+    private fun addToTagList(tag: String, action: Action) {
         if (!tagList.contains(tag)) {
             tagList.add(tag)
             tagAdapter.tagList = tagList
             binding.rvTag.scrollToPosition(tagList.size - 1)
+            when (action) {
+                Action.Selection -> listener?.onTagSelected(tag, tagList)
+                Action.Insertion -> listener?.onTagInserted(tag, tagList)
+            }
         }
     }
 
     fun getEnteredTag(): String {
         return binding.autoComplete.text.toString()
-    }
-
-    private fun addToAutoCompleteList(item: String) {
-        autoCompleteAdapter.add(item)
     }
 
     fun setAutoCompleteItemList(itemList: List<String>) {
@@ -107,8 +104,13 @@ class TagView @JvmOverloads constructor(
     }
 
     interface TagViewItemChangeListener {
-        fun onTagInserted(tag: String)
-        fun onTagSelected(tag: String)
-        fun onTagDeleted(tag: String)
+        fun onTagInserted(tag: String, tagList: List<String>)
+        fun onTagSelected(tag: String, tagList: List<String>)
+        fun onTagDeleted(tagList: List<String>)
+    }
+
+    sealed class Action {
+        object Selection : Action()
+        object Insertion : Action()
     }
 }

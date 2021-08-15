@@ -1,14 +1,23 @@
 package com.zahir.flickrgalleryapplication.ui.filter
 
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.zahir.flickrgalleryapplication.data.database.dao.TagDao
 import com.zahir.flickrgalleryapplication.data.models.Language
 import com.zahir.flickrgalleryapplication.data.models.SearchFilter
+import com.zahir.flickrgalleryapplication.data.models.Tag
 import com.zahir.flickrgalleryapplication.data.models.TagMode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class FilterFragmentViewModel @Inject constructor() : ViewModel() {
+class FilterFragmentViewModel @Inject constructor(
+    private val tagDao: TagDao
+) : ViewModel() {
 
     // filter region
     private var _tagList = mutableListOf<String>()
@@ -24,22 +33,39 @@ class FilterFragmentViewModel @Inject constructor() : ViewModel() {
         get() = _language
     // end filter region
 
+    private var _autoCompleteList = tagDao.getAllTags()
+    val autoCompleteList: LiveData<List<Tag>>
+        get() = _autoCompleteList
+
     fun init(searchFilter: SearchFilter) {
         _tagList.addAll(searchFilter.tags)
         _tagMode = searchFilter.tagMode
         _language = searchFilter.language
     }
 
-    fun onTagInserted(tag: String) {
-        addToTagList(tag)
+    fun onTagInserted(tag: String, tagList: List<String>) {
+        updateTagList(tagList)
+        viewModelScope.launch {
+            tagDao.insertTag(Tag(0, tag, 1, Date(), Date()))
+        }
     }
 
-    fun onTagSelected(tag: String) {
-        addToTagList(tag)
+    fun onTagSelected(tag: String, tagList: List<String>) {
+        updateTagList(tagList)
+        viewModelScope.launch {
+            tagDao.updateTag(tag, Date())
+        }
     }
 
-    fun onTagDeleted(tag: String) {
-        _tagList.remove(tag)
+    fun onTagDeleted(tagList: List<String>) {
+        updateTagList(tagList)
+    }
+
+    fun addToTagList(tag: String) {
+        _tagList.add(tag)
+        viewModelScope.launch {
+            tagDao.insertTag(Tag(0, tag, 1, Date(), Date()))
+        }
     }
 
     fun resetFilters() {
@@ -48,8 +74,9 @@ class FilterFragmentViewModel @Inject constructor() : ViewModel() {
         _language = Language.English
     }
 
-    fun addToTagList(tag: String) {
-        _tagList.add(tag)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun updateTagList(tagList: List<String>) {
+        _tagList = tagList as MutableList<String>
     }
 
     fun updateTagMode(tagMode: String) {

@@ -77,21 +77,28 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
             tagView.apply {
                 listener = object : TagView.TagViewItemChangeListener {
-                    override fun onTagInserted(tag: String) {
-                        this@FilterBottomSheetFragment.viewModel.onTagInserted(tag)
+                    override fun onTagInserted(tag: String, tagList: List<String>) {
+                        this@FilterBottomSheetFragment.viewModel.onTagInserted(tag, tagList)
                     }
 
-                    override fun onTagSelected(tag: String) {
-                        this@FilterBottomSheetFragment.viewModel.onTagSelected(tag)
+                    override fun onTagSelected(tag: String, tagList: List<String>) {
+                        this@FilterBottomSheetFragment.viewModel.onTagSelected(tag, tagList)
                     }
 
-                    override fun onTagDeleted(tag: String) {
-                        this@FilterBottomSheetFragment.viewModel.onTagDeleted(tag)
+                    override fun onTagDeleted(tagList: List<String>) {
+                        this@FilterBottomSheetFragment.viewModel.onTagDeleted(tagList)
                     }
 
                 }
             }
         }
+
+        viewModel.autoCompleteList.observe(viewLifecycleOwner, {
+            val tagList = it.map { tag ->
+                tag.title
+            }
+            binding.tagView.setAutoCompleteItemList(tagList)
+        })
 
     }
 
@@ -105,7 +112,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     fun onSearchButtonClick() {
         // add to tagList if last entered text is not empty
         val enteredTag = binding.tagView.getEnteredTag()
-        if (enteredTag.trim().isNotEmpty()) {
+        if (enteredTag.trim().isNotEmpty() && !viewModel.tagList.contains(enteredTag)) {
             viewModel.addToTagList(enteredTag)
         }
         // update the tag mode selection

@@ -1,5 +1,6 @@
 package com.zahir.flickrgalleryapplication.ui.filter
 
+import com.zahir.flickrgalleryapplication.data.database.dao.TagDao
 import com.zahir.flickrgalleryapplication.data.models.Language
 import com.zahir.flickrgalleryapplication.data.models.SearchFilter
 import com.zahir.flickrgalleryapplication.data.models.TagMode
@@ -8,13 +9,19 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 
 class FilterFragmentViewModelTest {
     private lateinit var sut: FilterFragmentViewModel
 
+    @Mock
+    lateinit var tagDao: TagDao
+
     @Before
     fun setUp() {
-        sut = FilterFragmentViewModel()
+        MockitoAnnotations.initMocks(this)
+        sut = FilterFragmentViewModel(tagDao)
     }
 
     @Test
@@ -51,21 +58,15 @@ class FilterFragmentViewModelTest {
     }
 
     @Test
-    fun should_remove_tag_from_list_when_onTagDeleted_called() {
+    fun should_update_tag_list_when_updateTagList_called() {
         // Arrange
-        val tag = "new tag"
+        val tagList = listOf("Tag1", "Tag2", "Tag3")
 
         // Act
-        sut.addToTagList(tag)
+        sut.updateTagList(tagList)
 
         // Assert
-        assertTrue(sut.tagList.contains(tag))
-
-        // Act
-        sut.onTagDeleted(tag)
-
-        // Assert
-        assertFalse(sut.tagList.contains(tag))
+        assertEquals(listOf("Tag1", "Tag2", "Tag3"), sut.tagList)
     }
 
     @Test
