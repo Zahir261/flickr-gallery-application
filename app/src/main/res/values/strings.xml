@@ -28,4 +28,10 @@
         <item>Portuguese (Brazilian)</item>
         <item>Traditional Chinese (Hong Kong)</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="via_email">Via Email</string>
+    <string name="save_to_gallery">Save to Gallery</string>
+    <string name="open_in_browser">Open in Browser</string>
+    <string name="three_dots_menu">Three dots menu</string>
 </resources>

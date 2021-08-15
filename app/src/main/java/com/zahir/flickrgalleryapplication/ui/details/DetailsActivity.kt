@@ -19,11 +19,16 @@ class DetailsActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(DetailsActivityViewModel::class.java)
         with(binding) {
             lifecycleOwner = this@DetailsActivity
+            activty = this@DetailsActivity
             viewModel = this@DetailsActivity.viewModel
         }
         viewModel.init(intent.getParcelableExtra("imageDetail"))
         binding.root.setOnClickListener {
             viewModel.toggleDetailsVisibility()
         }
+    }
+
+    fun onThreeDotsMenuClick() {
+        OptionsBottomSheetFragment.newInstance().show(supportFragmentManager, "OptionsFragment")
     }
 }

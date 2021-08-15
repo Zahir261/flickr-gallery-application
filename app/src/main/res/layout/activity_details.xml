@@ -8,12 +8,27 @@
         <variable
             name="viewModel"
             type="com.zahir.flickrgalleryapplication.ui.details.DetailsActivityViewModel" />
+
+        <variable
+            name="activty"
+            type="com.zahir.flickrgalleryapplication.ui.details.DetailsActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/iv_three_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_big"
+            android:contentDescription="@string/three_dots_menu"
+            android:onClick="@{() -> activty.onThreeDotsMenuClick()}"
+            android:src="@drawable/ic_three_dots"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -31,9 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent_black"
-            app:layout_constraintHeight_max="@dimen/image_details_view_height"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="@dimen/image_details_view_height"
             app:layout_constraintStart_toStartOf="parent"
             app:shouldBeVisible="@{viewModel.shouldShowDetails}">
 
